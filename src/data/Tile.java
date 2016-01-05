@@ -6,6 +6,7 @@ import static helpers.Artist.*;
 public class Tile {
 	private float x, y, width, height;
 	private Texture texture;
+	private Texture fogOfWar;
 	private TileType type;
 	private boolean visible = true;
 	
@@ -16,6 +17,7 @@ public class Tile {
 		this.height = height;
 		this.type = type;
 		this.texture = LoadPNG(this.type.textureName);
+		this.fogOfWar = LoadPNG("shade");
 	}
 	
 	public void Draw() {
@@ -24,7 +26,7 @@ public class Tile {
 	
 	public void DrawDark() {
 		DrawQuadTex(this.x, this.y, this.width, this.height, this.texture);
-		DrawQuadTex(this.x, this.y, this.width, this.height, LoadPNG("shade"));
+		DrawQuadTex(this.x, this.y, this.width, this.height, this.fogOfWar);
 	}
 
 	public float getX() {

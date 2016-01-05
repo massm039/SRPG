@@ -31,7 +31,12 @@ public class Boot {
 			Display.sync(60);
 		}
 		
-		//deletes data from use
+		deleteData();
+		
+		Display.destroy();
+	}
+	
+	private void deleteData() {
 		File directory = new File("C:\\gamesaves");
 		try {
 			deleteFolder(directory);
@@ -39,9 +44,6 @@ public class Boot {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		//deletes data from use
-		
-		Display.destroy();
 	}
 
 }

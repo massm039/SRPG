@@ -159,10 +159,11 @@ public class Character {
 		ArrayList<Conversation> convos = level.getConversations();
 		for (int i=0; i<convos.size(); i++) {
 			if ((convos.get(i).getNameOne() == this.name && convos.get(i).getNameTwo() == examiner.getName())
-					|| (convos.get(i).getNameOne() == examiner.getName() && convos.get(i).getNameTwo() == this.name)) {
+				|| (convos.get(i).getNameOne() == examiner.getName() && convos.get(i).getNameTwo() == this.name)) {
 				return convos.get(i).getStatements();
 			}
 		}
+		convos = null;
 		return new ArrayList<String>();
 	}
 	
@@ -222,6 +223,7 @@ public class Character {
 					}
 				}
 			}
+			node = null;
 			return false;
 		}
 		ArrayList<Checkpoint> checks = autoSee(tile);
@@ -338,6 +340,8 @@ public class Character {
 			player.openDialog(currConvo.getStatements());
 		}
 		level.getGoals().interaction(name, item.getName());
+		convos = null;
+		currConvo = null;
 	}
 	
 	protected void talk(Character other) {
@@ -364,12 +368,14 @@ public class Character {
 	}
 	
 	protected void attack(Character other) {
-		if (!player.getMoved().contains(this)) {
-			player.getMoved().add(this);
-		}
-		other.setHealth(other.getHealth()-this.damage);
-		if (other.health <= 0) {
-			other.die();
+		if (getTileOn().gridDistanceFrom(other.getTileOn()) == 1) { 
+			if (!player.getMoved().contains(this)) {
+				player.getMoved().add(this);
+			}
+			other.setHealth(other.getHealth()-this.damage);
+			if (other.health <= 0) {
+				other.die();
+			}
 		}
 	}
 	
@@ -483,11 +489,15 @@ public class Character {
 					if (inCombat) {
 						distance += tempReList.get(i).getTileOn().getType().difficulty;
 						if (distance > movement) {
+							open = null;
+							closed = null;
 							return reList;
 						}
 					}
 					reList.add(tempReList.get(i));
 				}
+				open = null;
+				closed = null;
 				return reList;
 			}
 			for (TileNode i : currentNode.getNeighbours()) {
@@ -508,6 +518,8 @@ public class Character {
 				}
 			}
 		}
+		open = null;
+		closed = null;
 		return null;
 	}
 	
@@ -532,6 +544,8 @@ public class Character {
 					if (inCombat) {
 						distance += tempReList.get(i).getTileOn().getType().difficulty;
 						if (distance > movement) {
+							open = null;
+							closed = null;
 							return reList;
 						}
 					}

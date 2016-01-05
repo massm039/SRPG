@@ -117,24 +117,10 @@ public class Player {
 	}
 	
 	public void openDialog(String dialog) {
-		if (dialog.contains("I added a") && dialog.contains("to my inventory.")) {
-			String key = dialog.substring(dialog.indexOf("I added a ") + 10, dialog.indexOf(" to my inventory."));
-			if (!inventory.contains(key)) {
-				inventory.add(key);
-			}
-		}
 		dialogBox.setMessage(dialog);
 	}
 	
 	public void openDialog(ArrayList<String> dialog) {
-		for (String i : dialog) {
-			if (i.contains("I added a ") && i.contains("to my inventory.")) {
-				String key = i.substring(i.indexOf("I added a ") + 10, i.indexOf(" to my inventory."));
-				if (!inventory.contains(key)) {
-					inventory.add(key);
-				}
-			}
-		}
 		dialogBox.giveDialog(dialog);
 	}
 	
@@ -171,6 +157,12 @@ public class Player {
 			return true;
 		}
 		return false;
+	}
+	
+	public void addToInventory(String item) {
+		if (!inventory.contains(item)) {
+			inventory.add(item);
+		}
 	}
 	
 	private void moveChar() {

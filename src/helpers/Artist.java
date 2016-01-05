@@ -75,7 +75,6 @@ public class Artist {
 	
 	public static Texture LoadPNG(String fileName) {
 		Texture tex = null;
-		//InputStream in = ResourceLoader.getResourceAsStream("res/" + fileName + ".png");
 		InputStream in = ResourceLoader.getResourceAsStream("res/" + fileName + ".png");
 		try {
 			tex = TextureLoader.getTexture("PNG", in);

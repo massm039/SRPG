@@ -50,9 +50,9 @@ public class Door extends Item{
 	public ArrayList<String> examineBy(Character examiner) {
 		ArrayList<String> list = new ArrayList<String>();
 		if (isLocked()) {
-			list.add(examiner.getName() + ": It's locked.");
+			list.add("It's locked.");
 		}
-		list.add(examiner.getName() + ": I'm not running away.");
+		list.add("Daniel: I can't just run away!");
 		return list;
 	}
 	

@@ -62,7 +62,9 @@ public class Game {
 	}
 	
 	public void reloadLevel() {
-		this.level = loadLevel(level.getName());
+		String name = level.getName();
+		this.level = null;
+		this.level = loadLevel(name);
 		player = new Player(level, dialogBox, this);
 		dialogBox.setPlayer(player);
 		level.updateVisibility();

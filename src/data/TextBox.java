@@ -51,13 +51,19 @@ public class TextBox {
 			}
 			draw();
 		}
-		if (message.contains("end chapter")) {
+		//MESSAGE FUNCTIONS
+		if (message.equals("CHAPTERONE")) {
 			nextMessage();
-			setState(GameState.CHAPTER);
+			setState(GameState.CHAPTERONE);
 		}
-		if (message.contains("death of character")) {
+		if (message.equals("death of character")) {
 			nextMessage();
 			player.getGame().reloadLevel();
+		}
+		if (message.contains("add-item-")) {
+			String item = message.substring((message.indexOf("add-item-") + 9), message.length());
+			player.addToInventory(item);
+			nextMessage();
 		}
 	}
 	
@@ -113,7 +119,7 @@ public class TextBox {
 	
 	private void draw() {
 		DrawQuadTex(x, y, 1550, 420, tex);
-		int maxLength = 59, indent = 32, margin = 32, yDist = 40;
+		int maxLength = 59, indent = 8, margin = 32, yDist = 40;
 		if (message.length() < 60) {
 			drawText(font, x+margin+indent, y+yDist, message);
 		}

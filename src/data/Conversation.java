@@ -3,6 +3,8 @@ package data;
 import java.util.ArrayList;
 
 public class Conversation {
+	
+	//
 
 	private int priority = 0;
 	private String nameOne, nameTwo;

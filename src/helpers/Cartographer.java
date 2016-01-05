@@ -27,25 +27,34 @@ public class Cartographer {
 	public static void saveLevel(String mapName, Level level, boolean inGame) {
 		if (inGame) {
 			mapName = "save" + mapName;
+			try {
+				File directory = new File("C:\\gamesaves"); //JAR
+				directory.mkdir(); //JAR
+				File file = new File(directory + "\\" + mapName); //JAR
+				BufferedWriter bw = new BufferedWriter(new FileWriter(file)); //JAR
+				
+				saveGrid(bw, level.getGrid());
+				saveItems(bw, level.getItems());
+				saveCharacters(bw, level.getCharacters());
+				bw.close();
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		try {
-			/*
-			File directory = new File("C:\\gamesaves"); //JAR
-			directory.mkdir(); //JAR
-			File file = new File(directory + "\\" + mapName); //JAR
-			BufferedWriter bw = new BufferedWriter(new FileWriter(file)); //JAR
-			*/
-			
-			File file = new File(mapName); //for use in eclipse
-			BufferedWriter bw = new BufferedWriter(new FileWriter(file)); //for use in eclipse
+		else {
+			try {
+			File file = new File(mapName);
+			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 			
 			saveGrid(bw, level.getGrid());
 			saveItems(bw, level.getItems());
 			saveCharacters(bw, level.getCharacters());
 			bw.close();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -53,8 +62,7 @@ public class Cartographer {
 		Level level = new Level(mapName);
 		BufferedReader br;
 		try {
-			//File file = new File("C:\\gamesaves\\save" + mapName); //JAR
-			File file = new File("save" + mapName); //for file IO in Eclipse
+			File file = new File("C:\\gamesaves\\save" + mapName); //JAR
 			br = new BufferedReader(new FileReader(file));
 			level.setGrid(loadGrid(br, level));
 			level.setItems(loadItems(br, level));
