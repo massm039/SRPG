@@ -42,6 +42,25 @@ public class TextBox {
 	}
 	
 	public void update() {
+		//MESSAGE LOAD FUNCTIONS
+		if (message.equals("CHAPTERONE")) {
+			nextMessage();
+			setState(GameState.CHAPTERONE);
+			return;
+		}
+		else if (message.equals("dead-character")) {
+			nextMessage();
+			player.getGame().reloadLevel();
+			return;
+		}
+		else { //OTHER MESSAGE FUNCTIONS
+			if (message.contains("add-item-")) {
+				String item = message.substring((message.indexOf("add-item-") + 9), message.length());
+				player.addToInventory(item);
+				nextMessage();
+				return;
+			}
+		}
 		if (message != "") {
 			Clock.setPause(true);
 			while (Mouse.next()) {
@@ -50,20 +69,6 @@ public class TextBox {
 				}
 			}
 			draw();
-		}
-		//MESSAGE FUNCTIONS
-		if (message.equals("CHAPTERONE")) {
-			nextMessage();
-			setState(GameState.CHAPTERONE);
-		}
-		if (message.equals("death of character")) {
-			nextMessage();
-			player.getGame().reloadLevel();
-		}
-		if (message.contains("add-item-")) {
-			String item = message.substring((message.indexOf("add-item-") + 9), message.length());
-			player.addToInventory(item);
-			nextMessage();
 		}
 	}
 	

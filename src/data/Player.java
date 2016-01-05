@@ -154,6 +154,7 @@ public class Player {
 	
 	public boolean useKey(Door door) {
 		if (inventory.contains(door.getKey())) {
+			openDialog("You open the door using the " + door.getKey() + ".");
 			return true;
 		}
 		return false;

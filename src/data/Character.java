@@ -37,7 +37,7 @@ public class Character {
 		this.playable = playable;
 		this.level = level;
 		deathScript.add(name + ": I couldn't make it, I'm sorry I let you all down.");
-		deathScript.add("death of character");
+		deathScript.add("dead-character");
 	}
 	
 	public Character(int x, int y, CharacterType type, Level level) {
@@ -56,7 +56,7 @@ public class Character {
 		this.playable = type.playable;
 		this.level = level;
 		deathScript.add(name + ": I couldn't make it, I'm sorry I let you all down.");
-		deathScript.add("death of character");
+		deathScript.add("dead-character");
 	}
 
 	public void update() {
