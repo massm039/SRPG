@@ -2,12 +2,11 @@ package data;
 
 import java.util.ArrayList;
 import org.lwjgl.input.Mouse;
-
 import static helpers.Artist.*;
 import static helpers.Clock.*;
 
 public class Character {
-	protected int x, y, width, height, maxHealth, speed, movement, damage = 10;
+	protected int x, y, width, height, maxHealth, speed, movement, damage = 10, range;
 	protected Sprite sprite;
 	protected Level level;
 	protected Player player;
@@ -52,6 +51,7 @@ public class Character {
 		this.speed = type.movement*10;
 		this.damage = type.damage;
 		this.name = type.name;
+		this.range = type.range;
 		this.sprite = new Sprite(type.name.toLowerCase(), type.animLength);
 		this.playable = type.playable;
 		this.level = level;
@@ -180,10 +180,10 @@ public class Character {
 	}
 	
 	public void drawHealthBar() {
-		int baseX = x+width/2-maxHealth/2;
+		int baseX = (x+2);
 		int baseY = y-8;
-		DrawQuadTex(baseX, baseY, maxHealth, 4, LoadPNG("darkBar"));
-		DrawQuadTex(baseX, baseY, health, 4, LoadPNG("healthBar"));
+		DrawQuadTex(baseX, baseY, width-4, 4, LoadPNG("darkBar"));
+		DrawQuadTex(baseX, baseY, ((float)health/(float)maxHealth)*(width-4), 4, LoadPNG("healthBar"));
 	}
 	
 	public int getHealth() {
@@ -291,7 +291,7 @@ public class Character {
 							level.updateVisibility();
 						}
 						else {
-							player.openDialog(name + ": It needs a key.");
+							player.openDialog(((Door)interaction).getMessage());
 						}
 					}
 					else {
@@ -308,7 +308,7 @@ public class Character {
 							}
 						}
 						else {
-							player.openDialog(name + ": " + ((Door)interaction).getMessage());
+							player.openDialog(((Door)interaction).getMessage());
 						}
 					}	
 				}
@@ -321,54 +321,25 @@ public class Character {
 	}
 	
 	protected void examine(Item item) {
-		ArrayList<Conversation> convos = new ArrayList<Conversation>();
-		for (Conversation i : level.getConversations()) {
-			if (i.checkNames(this.name, item.getName()) && i.checkRequirements(level.getGoals())) {
-				convos.add(i);
-			}
-		}
-		int currPriority = -1;
-		Conversation currConvo = new Conversation("name1", "name2");
-		for (Conversation i : convos) {
-			if (i.getPriority() > currPriority) {
-				currConvo = i;
-				currPriority = i.getPriority();
-			}
-		}
-		if (currConvo != new Conversation("name1", "name2")) {
+		ArrayList<String> dialog = player.getBestDialog(name, item.getName());
+		if (dialog != null) {
 			lookAt(item);
-			player.openDialog(currConvo.getStatements());
+			player.openDialog(dialog);
 		}
 		level.getGoals().interaction(name, item.getName());
-		convos = null;
-		currConvo = null;
 	}
 	
 	protected void talk(Character other) {
-		ArrayList<Conversation> convos = new ArrayList<Conversation>();
-		for (Conversation i : level.getConversations()) {
-			if (i.checkNames(this.name, other.getName()) && i.checkRequirements(level.getGoals())) {
-				convos.add(i);
-			}
-		}
-		int currPriority = -1;
-		Conversation currConvo = new Conversation("name1", "name2");
-		for (Conversation i : convos) {
-			if (i.getPriority() > currPriority) {
-				currConvo = i;
-				currPriority = i.getPriority();
-			}
-		}
-		if (currConvo != new Conversation("name1", "name2")) {
+		ArrayList<String> dialog = player.getBestDialog(name, other.getName());
+		if (dialog != null) {
 			lookAt(other);
-			other.lookAt(this);
-			player.openDialog(currConvo.getStatements());
+			player.openDialog(dialog);
 		}
 		level.getGoals().interaction(name, other.getName());
 	}
 	
 	protected void attack(Character other) {
-		if (getTileOn().gridDistanceFrom(other.getTileOn()) == 1) { 
+		if (getTileOn().gridDistanceFrom(other.getTileOn()) <= 2) { 
 			if (!player.getMoved().contains(this)) {
 				player.getMoved().add(this);
 			}
@@ -395,6 +366,9 @@ public class Character {
 				y = (int)checkpoints.get(0).getY();
 				if (checkpoints.size() == 1) {
 					moving = false;
+					if (playable && inCombat && (interaction == null)) {
+						player.openOptions(this);
+					}
 					deselectSelf();
 					break;
 				}
@@ -408,6 +382,9 @@ public class Character {
 				y = (int)checkpoints.get(0).getY();
 				if (checkpoints.size() == 1) {
 					moving = false;
+					if (playable && inCombat && (interaction == null)) {
+						player.openOptions(this);
+					}
 					deselectSelf();
 					break;
 				}
@@ -421,6 +398,9 @@ public class Character {
 				y = (int)checkpoints.get(0).getY();
 				if (checkpoints.size() == 1) {
 					moving = false;
+					if (playable && inCombat && (interaction == null)) {
+						player.openOptions(this);
+					}
 					deselectSelf();
 					break;
 				}
@@ -434,6 +414,9 @@ public class Character {
 				y = (int)checkpoints.get(0).getY();
 				if (checkpoints.size() == 1) {
 					moving = false;
+					if (playable && inCombat && (interaction == null)) {
+						player.openOptions(this);
+					}
 					deselectSelf();
 					break;
 				}
@@ -443,6 +426,9 @@ public class Character {
 		case "stop":
 			if (checkpoints.size() == 1) {
 				moving = false;
+				if (playable && inCombat && (interaction == null)) {
+					player.openOptions(this);
+				}
 				deselectSelf();
 				break;
 			}
@@ -671,7 +657,7 @@ public class Character {
 				return true;
 			}
 			if (block instanceof Item) {
-				if (((Item)block).isPassable()) {
+				if (((Item)block).isSeeThrough()) {
 					return true;
 				}
 				else {

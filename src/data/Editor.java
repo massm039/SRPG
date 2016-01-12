@@ -20,9 +20,9 @@ public class Editor {
 			ItemType.WoodShelfThree, ItemType.WoodGlassShelf, ItemType.WoodGlassShelfTwo, ItemType.WoodGlassShelfThree, ItemType.WoodFilledShelf, 
 			ItemType.WoodFilledShelfTwo, ItemType.WoodFilledShelfThree, ItemType.RedWoodShelf, ItemType.RedWoodShelfTwo, ItemType.RedWoodShelfThree, 
 			ItemType.RedWoodFilledShelf, ItemType.RedWoodFilledShelfTwo, ItemType.RedWoodFilledShelfThree, ItemType.FamilyPortrait, ItemType.OldPortrait,
-			ItemType.Wagon};
+			ItemType.Tree};
 	
-	private CharacterType[] characterTypes = {CharacterType.Daniel, CharacterType.Erik, CharacterType.Riken, CharacterType.Tali, CharacterType.OldMan, CharacterType.Bandit};
+	private CharacterType[] characterTypes = {CharacterType.Daniel, CharacterType.Erik, CharacterType.Riken, CharacterType.Tali, CharacterType.OldMan, CharacterType.Bandit, CharacterType.GreyBear};
 	
 	private int tileIndex = 0, itemIndex = 0, characterIndex = 0;
 	private String mode = "tiles", saveFile;

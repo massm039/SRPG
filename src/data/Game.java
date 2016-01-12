@@ -34,11 +34,13 @@ public class Game {
 			}
 		}
 		
-		dialogBox.update(); //draw dialog box
-		
-		level.getGrid().drawCursor();
+		if (!isPaused()) {
+			level.getGrid().drawCursor();
+		}
 		
 		player.drawHealthBars();
+		
+		dialogBox.update(); //draw dialog box
 		
 		if (!dialogBox.getMessage().equals("")) {
 			setPause(true);

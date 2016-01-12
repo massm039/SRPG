@@ -3,8 +3,6 @@ package data;
 import java.util.ArrayList;
 
 public class Conversation {
-	
-	//
 
 	private int priority = 0;
 	private String nameOne, nameTwo;
@@ -30,6 +28,9 @@ public class Conversation {
 			nameOne = data[i];
 			nameTwo = data[1+i];
 			statements = new ArrayList<String>();
+			if (nameOne == "Exit" && nameTwo == "Combat") {
+				statements.add("");
+			}
 			for (int j=i+2; j<data.length; j++) {
 				statements.add(data[j]);
 			}
@@ -38,6 +39,9 @@ public class Conversation {
 			nameOne = data[0];
 			nameTwo = data[1];
 			statements = new ArrayList<String>();
+			if (nameOne == "Exit" && nameTwo == "Combat") {
+				statements.add("");
+			}
 			for (int i=2; i<data.length; i++) {
 				statements.add(data[i]);
 			}
@@ -73,6 +77,9 @@ public class Conversation {
 	}
 
 	public void setStatements(ArrayList<String> statements) {
+		if (nameOne == "Exit" && nameTwo == "Combat") {
+			statements.add("");
+		}
 		this.statements = statements;
 	}
 	

@@ -2,8 +2,6 @@ package data;
 
 import java.io.File;
 
-import static org.lwjgl.opengl.GL11.*;
-import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 
 import static helpers.Artist.*;

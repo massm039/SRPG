@@ -44,13 +44,13 @@ public class Cartographer {
 		}
 		else {
 			try {
-			File file = new File(mapName);
-			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-			
-			saveGrid(bw, level.getGrid());
-			saveItems(bw, level.getItems());
-			saveCharacters(bw, level.getCharacters());
-			bw.close();
+				File file = new File(mapName);
+				BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+				
+				saveGrid(bw, level.getGrid());
+				saveItems(bw, level.getItems());
+				saveCharacters(bw, level.getCharacters());
+				bw.close();
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -85,7 +85,7 @@ public class Cartographer {
 				br.close();
 			}
 			catch (Exception err) {
-				err.printStackTrace();
+				level = new Level();
 			}
 		}
 		try {
@@ -240,8 +240,8 @@ public class Cartographer {
 			return ItemType.FamilyPortrait;
 		case "OldPortrait":
 			return ItemType.OldPortrait;
-		case "Wagon":
-			return ItemType.Wagon;
+		case "Tree":
+			return ItemType.Tree;
 		default:
 			return null;
 		}
@@ -261,6 +261,8 @@ public class Cartographer {
 			return CharacterType.OldMan;
 		case "Bandit":
 			return CharacterType.Bandit;
+		case "GreyBear":
+			return CharacterType.GreyBear;
 		default:
 			return null;
 		}

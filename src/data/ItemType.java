@@ -39,9 +39,9 @@ public enum ItemType {
 	RedWoodFilledShelfThree("RedWoodFilledShelfThree", 64, 64, "redWoodFilledShelfThree", -32), 
 	FamilyPortrait("FamilyPortrait", 64, 64, "familyPortrait"), 
 	OldPortrait("OldPortrait", 64, 64, "oldPortrait"),
-	Wagon("Wagon", 128, 256, "wagon");
+	Tree("Tree", 64, 64, "tree", 3, 3);
 	
-	int width, height, animLength = 1, offsetY = 0;
+	int width, height, animLength = 1, frameTime = 1, offsetY = 0;
 	String name, tex, toLevel = "none";
 	
 	ItemType (String name, int width, int height, String texture) {
@@ -59,13 +59,13 @@ public enum ItemType {
 		this.offsetY = offsetY;
 	}
 	
-	ItemType (String name, int width, int height, String texture, int animLength, int offsetY) {
+	ItemType (String name, int width, int height, String texture, int animLength, int frameTime) {
 		this.name = name;
 		this.width = width;
 		this.height = height;
 		this.tex = texture;
 		this.animLength = animLength;
-		this.offsetY = offsetY;
+		this.frameTime = frameTime;
 	}
 	
 	ItemType (String name, int width, int height, String texture, String toLevel) {

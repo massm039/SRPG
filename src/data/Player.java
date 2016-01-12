@@ -78,11 +78,7 @@ public class Player {
 		for (int i=0; i<level.getCharacters().size(); i++) {
 			level.getCharacters().get(i).enterCombat();
 		}
-		for (Conversation i : level.getConversations()) {
-			if (i.checkNames("Enter", "Combat")) {
-				openDialog(i.getStatements());
-			}
-		}
+		openDialog(getBestDialog("Enter", "Combat"));
 	}
 	
 	public void exitCombat() {
@@ -97,11 +93,7 @@ public class Player {
 		for (Character i : level.getCharacters()) {
 			i.setPlayable(getCharacterType(i.getName()).playable);
 		}
-		for (Conversation i : level.getConversations()) {
-			if (i.checkNames("Exit", "Combat")) {
-				openDialog(i.getStatements());
-			}
-		}
+		openDialog(getBestDialog("Exit", "Combat"));
 	}
 	
 	public void changeLevel(Door door) {
@@ -164,6 +156,31 @@ public class Player {
 		if (!inventory.contains(item)) {
 			inventory.add(item);
 		}
+	}
+	
+	public void openOptions(Character user) {
+		dialogBox.openOptions(user);
+	}
+	
+	public ArrayList<String> getBestDialog(String name1, String name2) {
+		ArrayList<Conversation> convos = new ArrayList<Conversation>();
+		for (Conversation i : level.getConversations()) {
+			if (i.checkNames(name1, name2) && i.checkRequirements(level.getGoals())) {
+				convos.add(i);
+			}
+		}
+		int currPriority = -1;
+		Conversation currConvo = new Conversation("name1", "name2");
+		for (Conversation i : convos) {
+			if (i.getPriority() > currPriority) {
+				currConvo = i;
+				currPriority = i.getPriority();
+			}
+		}
+		if (currConvo != new Conversation("name1", "name2")) {
+			return currConvo.getStatements();
+		}
+		return null;
 	}
 	
 	private void moveChar() {

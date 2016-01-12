@@ -1,6 +1,7 @@
 package data;
 
 import java.util.ArrayList;
+import helpers.Clock;
 
 public class CombatManager {
 	
@@ -24,17 +25,19 @@ public class CombatManager {
 	}
 	
 	public void update() {
-		if (enemies.size() > 0 && !player.inCombat()) {
-			player.enterCombat();
-		}
-		if (player.inCombat() && enemies.size() == 0){
-			player.exitCombat();
-		}
-		if (player.inCombat()) {
-			if (alliesMoved()) {
-				moveEnemies();
+		if (!Clock.isPaused()) {
+			if (enemies.size() > 0 && !player.inCombat()) {
+				player.enterCombat();
 			}
-			enemiesMoved();
+			if (player.inCombat() && enemies.size() == 0){
+				player.exitCombat();
+			}
+			if (player.inCombat()) {
+				if (alliesMoved()) {
+					moveEnemies();
+				}
+				enemiesMoved();
+			}
 		}
 	}
 	

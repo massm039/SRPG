@@ -5,8 +5,8 @@ import static helpers.Clock.Delta;
 
 public class InDoor extends Door{
 		
-	public InDoor(int x, int y, int width, int height, String imageFile, int animLength, TileGrid grid, String mapName) {
-		super(x, y, width, height, imageFile, animLength, grid, mapName);
+	public InDoor(int x, int y, int width, int height, String imageFile, int animLength, int frameTime, TileGrid grid, String mapName) {
+		super(x, y, width, height, imageFile, animLength, frameTime, grid, mapName);
 	}
 	
 	public InDoor(int x, int y, ItemType type, TileGrid grid) {
@@ -18,6 +18,7 @@ public class InDoor extends Door{
 		if (dataList.length > 10) {
 			if (dataList[10].equals("true")) {
 				passable = true;
+				spriteAnim.setName(spriteAnim.getName() + "Open");
 			}
 			else {
 				passable = false;
@@ -31,7 +32,6 @@ public class InDoor extends Door{
 			spriteAnim.setName(spriteAnim.getName() + "Open");
 		}
 		else {
-			passable = false;
 			spriteAnim.setName(spriteAnim.getName().substring(0, spriteAnim.getName().length()-4));
 		}
 	}
@@ -40,8 +40,13 @@ public class InDoor extends Door{
 		DrawQuadTex(x, y + offsetY, width, height, spriteAnim.getFrame(Delta()));
 	}
 	
+	public boolean isSeeThrough() {
+		return passable;
+	}
+	
 	public String toString() {
-		return "InDoor " + Integer.toString(x) + " " + Integer.toString(y) + " " + Integer.toString(width) + " " + Integer.toString(height) + " " + spriteAnim.toString() + " " + key.replace(' ', '_') + " " + mapName + " It's_Locked. " + passable;
+		String lockMsg = lockedMessage.replace(' ', '_');
+		return "InDoor " + Integer.toString(x) + " " + Integer.toString(y) + " " + Integer.toString(width) + " " + Integer.toString(height) + " " + spriteAnim.toString() + " " + key.replace(' ', '_') + " " + mapName + " " + lockMsg + " " + passable;
 	}
 	
 }

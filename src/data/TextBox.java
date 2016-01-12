@@ -1,7 +1,5 @@
 package data;
 
-import helpers.Clock;
-
 import java.awt.Font;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -20,6 +18,7 @@ public class TextBox {
 	private String message = "";
 	private ArrayList<String> dialog = new ArrayList<String>();
 	private TrueTypeFont font;
+	private OptionsMenu options = null;
 	
 	private final int x = 32, y = HEIGHT*2/3;
 	private final Texture tex = LoadPNG("dialogBox");
@@ -42,10 +41,30 @@ public class TextBox {
 	}
 	
 	public void update() {
+		checkFunctions();
+		if (message != "" && options == null) {
+			while (Mouse.next()) {
+				if (Mouse.getEventButton() == 0 && Mouse.getEventButtonState()) {
+					nextMessage();
+				}
+			}
+			draw();
+		}
+		if (options != null) {
+			options.update();
+		}
+	}
+	
+	public void checkFunctions() {
 		//MESSAGE LOAD FUNCTIONS
 		if (message.equals("CHAPTERONE")) {
 			nextMessage();
 			setState(GameState.CHAPTERONE);
+			return;
+		}
+		else if (message.equals("CHAPTERTWO")) {
+			nextMessage();
+			setState(GameState.CHAPTERTWO);
 			return;
 		}
 		else if (message.equals("dead-character")) {
@@ -61,15 +80,6 @@ public class TextBox {
 				return;
 			}
 		}
-		if (message != "") {
-			Clock.setPause(true);
-			while (Mouse.next()) {
-				if (Mouse.getEventButton() == 0 && Mouse.getEventButtonState()) {
-					nextMessage();
-				}
-			}
-			draw();
-		}
 	}
 	
 	public void setPlayer (Player player) {
@@ -78,6 +88,16 @@ public class TextBox {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	public void openOptions(Character user) {
+		options = new OptionsMenu(user, this);
+		message = "options";
+	}
+	
+	public void closeOptions() {
+		options = null;
+		nextMessage();
 	}
 	
 	public String getMessage() {
@@ -90,11 +110,11 @@ public class TextBox {
 		}
 		else {
 			message = "";
-			Clock.setPause(false);
 			for (Character i : player.getCharacters()) {
 				i.setTalking(false);
 			}
 		}
+		checkFunctions();
 	}
 	
 	public void giveDialog(ArrayList<String> dialog) {

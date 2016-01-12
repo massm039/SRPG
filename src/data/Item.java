@@ -27,13 +27,24 @@ public class Item {
 		this.offsetY = 0;
 	}
 	
+	public Item(int x, int y, int width, int height, String imageFile, int animLength, int frameTime, TileGrid grid) {
+		this.x = x*64;
+		this.y = y*64;
+		this.width = width;
+		this.height = height;
+		this.texFile = imageFile;
+		this.spriteAnim = new SpriteAnim(imageFile, animLength, frameTime);
+		this.grid = grid;
+		this.offsetY = 0;
+	}
+	
 	public Item(int x, int y, ItemType type, TileGrid grid) {
 		this.x = x*64;
 		this.y = y*64;
 		this.width = type.width;
 		this.height = type.height;
 		this.texFile = type.tex;
-		this.spriteAnim = new SpriteAnim(type.tex, type.animLength);
+		this.spriteAnim = new SpriteAnim(type.tex, type.animLength, type.frameTime);
 		this.name = type.name;
 		this.offsetY = type.offsetY;
 		this.grid = grid;
@@ -45,9 +56,9 @@ public class Item {
 		width = Integer.parseInt(newData[3]);
 		height = Integer.parseInt(newData[4]);
 		texFile = newData[5];
-		this.spriteAnim = new SpriteAnim(newData[5], Integer.parseInt(newData[6]));
-		name = newData[7];
-		this.offsetY = Integer.parseInt(newData[8]);
+		this.spriteAnim = new SpriteAnim(newData[5], Integer.parseInt(newData[6]), Integer.parseInt(newData[7]));
+		name = newData[8];
+		this.offsetY = Integer.parseInt(newData[9]);
 		this.grid = grid;
 	}
 	
@@ -57,6 +68,10 @@ public class Item {
 	
 	public boolean isPassable() {
 		return passable;
+	}
+	
+	public boolean isSeeThrough() {
+		return true;
 	}
 	
 	public boolean isVisible() {
