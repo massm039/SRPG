@@ -339,7 +339,7 @@ public class Character {
 	}
 	
 	protected void attack(Character other) {
-		if (getTileOn().gridDistanceFrom(other.getTileOn()) <= 2) { 
+		if (getTileOn().gridDistanceFrom(other.getTileOn()) <= range) { 
 			if (!player.getMoved().contains(this)) {
 				player.getMoved().add(this);
 			}

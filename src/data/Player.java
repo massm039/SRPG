@@ -12,7 +12,6 @@ public class Player {
 	private TextBox dialogBox;
 	private CombatManager combatManager;
 	private ArrayList<String> inventory = new ArrayList<String>();
-	
 	private ArrayList<Character> moved = new ArrayList<Character>();
 	private Character selected;
 	private boolean inCombat = false;

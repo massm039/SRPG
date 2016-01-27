@@ -46,7 +46,11 @@ public class InDoor extends Door{
 	
 	public String toString() {
 		String lockMsg = lockedMessage.replace(' ', '_');
-		return "InDoor " + Integer.toString(x) + " " + Integer.toString(y) + " " + Integer.toString(width) + " " + Integer.toString(height) + " " + spriteAnim.toString() + " " + key.replace(' ', '_') + " " + mapName + " " + lockMsg + " " + passable;
+		String spriteName = spriteAnim.toString();
+		if (spriteAnim.toString().contains("Open")) {
+			spriteName = spriteName.substring(0, spriteName.length()-4);
+		}
+		return "InDoor " + Integer.toString(x) + " " + Integer.toString(y) + " " + Integer.toString(width) + " " + Integer.toString(height) + " " + spriteName + " " + key.replace(' ', '_') + " " + mapName + " " + lockMsg + " " + passable;
 	}
 	
 }
